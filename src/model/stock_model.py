@@ -65,7 +65,7 @@ class StockModel(BaseModel):
 
     def save(self, path: str='.', model_name: str='model'):
         model_path = os.path.join(path, f'{model_name}.pth')
-        torch.save(self._net, model_path)
+        torch.save(self._net.state_dict(), model_path)
 
     def load(self, path: str='.', model_name: str='model'):
         model_path = os.path.join(path, f'{model_name}.pth')
