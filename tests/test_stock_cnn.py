@@ -13,6 +13,7 @@ from torchvision import transforms
 
 from src.data_loader import CustomDataset
 from src.net.stock_cnn import StockCNN
+from src.net.cnn_with_res import StockCNNWithRes
 from src.model.stock_model import StockModel
 from src.utils import plot_loss, gen_metric
 
@@ -25,10 +26,10 @@ class StockCNNTestCase(unittest.TestCase):
         self._interval = 1
         self._device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
         self._max_len = None
-        self._model = StockModel(net=StockCNN(), device=self._device, loss_fn=nn.BCELoss())
+        self._model = StockModel(net=StockCNNWithRes(), device=self._device, loss_fn=nn.BCELoss())
 
     def test_train(self):
-        optimizer = AdamW(self._model._net.parameters(), lr=0.00003, weight_decay=0.0005)
+        optimizer = AdamW(self._model._net.parameters(), lr=0.00003, weight_decay=0.01)
         train_data_loader, val_data_loader = self._load_train_data()
         train_loss_list = []
         val_loss_list = []
